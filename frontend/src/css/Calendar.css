@@ -1,0 +1,339 @@
+/* Light Mode Variables */
+:root {
+    --header-background-color: #f0e6f6;
+    --header-text-color: #4a235a;
+    --dropdown-background-color: #fff;
+    --dropdown-border-color: #ccc;
+    --dropdown-item-hover-background-color: #f3e5f5;
+    --button-background-color: #d4a5d5;
+    --button-hover: rgba(212, 165, 213, 0.1);
+    --background-color: #fdf6ff;
+    --text-color: #74368d;
+    --card-background-color: #fff;
+    --card-shadow-color: rgba(0, 0, 0, 0.1);
+    --card-border-color: #ccc;
+    --link-color: #af7ac5;
+    --link-hover-color: #9b59b6;
+    --journal-entry-hover: #f0e6f6;
+    /* Light mode: Hover background color */
+    --calendar-background-color-light: #fff;
+    /* Light mode: Calendar background color */
+    --journal-entries-background-light: #f9f9f9;
+    /* Light mode: Journal entries background color */
+    --scrollbar-thumb-color: #f7ebf3;
+    --scrollbar-thumb-hover: #c8a9be;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --header-background-color: #2e2e4d;
+    --header-text-color: #fff;
+    --dropdown-background-color: #3e3e5d;
+    --dropdown-border-color: #4a4a6a;
+    --dropdown-item-hover-background-color: #4a4a6a;
+    --button-background-color: #9a4dff;
+    --button-hover: rgba(154, 77, 255, 0.1);
+    --background-color: #1e1e2f;
+    --text-color: #E6E6FA;
+    --card-background-color: #2e2e4d;
+    --card-shadow-color: rgba(0, 0, 0, 0.5);
+    --card-border-color: #4a4a6a;
+    --link-color: #a967ff;
+    --link-hover-color: #d5adfd;
+    --journal-entry-hover: #4d4d70;
+    /* Dark mode: Hover background color */
+    --calendar-background-color-dark: #36364f;
+    /* Dark mode: Calendar background color */
+    --journal-entries-background-dark: #33334d;
+    /* Dark mode: Journal entries background color */
+    --scrollbar-thumb-color: #0d081c;
+    --scrollbar-thumb-hover: #423d51;
+}
+
+/* Common Styles for Both Modes */
+.calendar-container {
+    display: flex;
+    width: 100%;
+    margin: 50px;
+    align-items: flex-start;
+    /* Adjusted alignment */
+}
+
+.calendar {
+    width: 50%;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: var(--calendar-background-color-light);
+    /* Light mode: Calendar background color */
+    height: 400px;
+    /* Fixed height */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+}
+
+body.dark-mode .calendar {
+    background-color: var(--calendar-background-color-dark);
+    /* Dark mode: Calendar background color */
+}
+
+/* Scrollbar Styles */
+.calendar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.calendar::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+.calendar::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: 4px;
+}
+
+.calendar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.navigation span {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--header-text-color);
+}
+
+.navigation button {
+    background-color: var(--button-background-color);
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.navigation button:hover {
+    background-color: var(--button-hover);
+}
+
+.navigation select {
+    padding: 5px;
+    border: 1px solid var(--dropdown-border-color);
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: var(--dropdown-background-color);
+    color:var(--text-color)
+}
+.navigation select:hover {
+    background-color: var(--dropdown-item-hover-background-color);
+}
+.days {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--background-color);
+    padding: 10px 0;
+    border-radius: 5px;
+}
+
+.day-name,
+.date {
+    width: calc(100% / 7);
+    text-align: center;
+    padding: 10px 0;
+}
+
+.date a {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 10px 0;
+    transition: background-color 0.3s ease;
+}
+
+.current-month a {
+    color: var(--text-color);
+}
+
+.other-month a {
+    color: var(--text-color);
+    opacity: 0.5;
+    /* Adjusted opacity for other months */
+}
+
+.date a:hover {
+    background-color: var(--dropdown-item-hover-background-color);
+    border-radius: 5px;
+}
+
+.dates {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+}
+
+.journal-entries {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: var(--journal-entries-background-light);
+    /* Light mode: Journal entries background color */
+    margin-left: 40px;
+    height: 400px;
+    /* Fixed height */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+}
+
+.journal-entries::-webkit-scrollbar {
+    width: 4px;
+}
+
+.journal-entries::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+.journal-entries::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: 4px;
+}
+
+.journal-entries::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+}
+
+body.dark-mode .journal-entries {
+    background-color: var(--journal-entries-background-dark);
+    /* Dark mode: Journal entries background color */
+}
+
+.journal-entry {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid var(--card-border-color);
+    border-radius: 8px;
+    background-color: var(--card-background-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.journal-entry:hover {
+    background-color: var(--journal-entry-hover);
+    /* Default to light mode hover color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.entry-date {
+    font-size: 14px;
+    color: var(--header-text-color);
+    /* Light mode: Adjusted color for the entry date */
+    font-weight: bold;
+    /* Make the entry date bold */
+    margin-bottom: 10px;
+}
+
+.entry-text {
+    font-size: 16px;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.show-more {
+    color: var(--link-color);
+    cursor: pointer;
+}
+
+.entry-user {
+    font-size: 14px;
+    color: var(--header-text-color);
+    /* Light mode: Adjusted color for the entry user */
+    font-weight: bold;
+    /* Make the entry user bold */
+    margin-bottom: 10px;
+}
+
+.entry-date,
+.entry-text,
+.show-more,
+.entry-user {
+    margin-bottom: 10px;
+}
+
+.journal-entry {
+    position: relative;
+}
+
+.entry-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.entry-actions .faPen,
+.entry-actions .faTrash {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.entry-text textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.entry-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.entry-actions button {
+    margin-left: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: var(--button-background-color);
+    /* Default button background color */
+    color: #fff;
+    /* Default button text color */
+    transition: background-color 0.3s ease;
+}
+
+.entry-actions button:hover {
+    background-color: var(--button-hover);
+    /* Button background color on hover */
+}
+
+.entry-actions .faPen,
+.entry-actions .faTrash {
+    cursor: pointer;
+    margin-left: 10px;
+    color: var(--link-color);
+    /* Default icon color */
+    transition: color 0.3s ease;
+}
+
+.entry-actions .faPen:hover,
+.entry-actions .faTrash:hover {
+    color: var(--link-hover-color);
+    /* Icon color on hover */
+}
