@@ -4,7 +4,6 @@ import Calendar from "../components/Calendar";
 import { useParams } from "react-router-dom";
 const Journal = () => {
   const { relationshipId } = useParams();
-  console.log(relationshipId);
   return (
     <div>
       <Header />

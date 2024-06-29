@@ -210,11 +210,13 @@ const Home = () => {
             className="info-icon"
             title="Daily Question"
           />
-          <FontAwesomeIcon
-            icon={faCalendarAlt}
-            className="info-icon"
-            title="Important Events"
-          />
+          <Link to={`/importantEvents/${relationship._id}`}>
+            <FontAwesomeIcon
+              icon={faCalendarAlt}
+              className="info-icon"
+              title="Important Events"
+            />
+          </Link>
           <Link to={`/journal/${relationship._id}`}>
             <FontAwesomeIcon
               icon={faBook}

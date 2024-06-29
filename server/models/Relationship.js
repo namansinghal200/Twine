@@ -11,10 +11,16 @@ const dailyQuestionSchema = new mongoose.Schema({
 
 const importantEventSchema = new mongoose.Schema({
   event: { type: String, required: true },
-  date: { type: Date, required: true },
+  date: { type: Date, default: Date.now() },
   createdBy: {
     type: String,
     required: true,
+  },
+  category: {
+    type: String,
+    enum: ["birthday", "anniversary", "sports", "work", "study", "other"],
+    required: true,
+    default: "other",
   },
 });
 

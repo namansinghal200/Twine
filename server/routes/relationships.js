@@ -10,6 +10,10 @@ import {
   getJournalEntriesMonth,
   updateJournalEntry,
   deleteJournalEntry,
+  createImportantEvent,
+  getAllEvents,
+  updateEvent,
+  deleteEvent,
 } from "../controllers/Relationships.js";
 import { verifyJwtToken } from "../middleware/Verify.js";
 const router = express.Router();
@@ -28,4 +32,8 @@ router.delete(
   verifyJwtToken,
   deleteJournalEntry
 );
+router.get("/:id/events", verifyJwtToken, getAllEvents);
+router.post("/:id/newEvent", verifyJwtToken, createImportantEvent);
+router.put("/:id/event/:eventId", verifyJwtToken, updateEvent);
+router.delete("/:id/event/:eventId", verifyJwtToken, deleteEvent);
 export default router;

@@ -8,6 +8,8 @@ import {
   parseISO,
   startOfMonth,
   endOfMonth,
+  startOfWeek,
+  endOfWeek,
 } from "date-fns";
 
 export const createRelationship = async (req, res, next) => {
@@ -256,5 +258,168 @@ export const deleteJournalEntry = async (req, res) => {
     res.status(200).json({ message: "Journal entry deleted" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
+  }
+};
+
+export const createImportantEvent = async (req, res) => {
+  const { id } = req.params;
+  const createdBy = req.user.id;
+  const { event, dateOfEvent, category } = req.body;
+  console.log(req.body);
+  const date = new Date(dateOfEvent);
+
+  try {
+    const relationship = await Relationship.findById(id);
+    if (!relationship) {
+      return res.status(404).json({ message: "Relationship not found" });
+    }
+
+    const newEvent = {
+      event,
+      date,
+      createdBy,
+      category,
+    };
+
+    relationship.importantEvents.push(newEvent);
+    await relationship.save();
+
+    res.status(201).json({
+      message: "New event recorded",
+      event: newEvent,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+export const getAllEvents = async (req, res, next) => {
+  const { id } = req.params;
+  const { dayFilter, typeFilter } = req.query;
+
+  try {
+    const relationship = await Relationship.findById(id);
+    if (!relationship) {
+      return res.status(404).json({ message: "Relationship not found" });
+    }
+    let filteredEvents = relationship.importantEvents;
+    if (typeFilter) {
+      filteredEvents = filteredEvents.filter((event) => {
+        return event.category === typeFilter;
+      });
+    }
+    if (dayFilter) {
+      if (dayFilter === "today") {
+        filteredEvents = filteredEvents.filter((event) => {
+          const today = new Date();
+          return (
+            event.date >= startOfDay(today) && event.date <= endOfDay(today)
+          );
+        });
+      }
+      if (dayFilter === "week") {
+        filteredEvents = filteredEvents.filter((event) => {
+          const today = new Date();
+          return (
+            event.date >= startOfWeek(today) && event.date <= endOfWeek(today)
+          );
+        });
+      }
+      if (dayFilter === "month") {
+        filteredEvents = filteredEvents.filter((event) => {
+          const today = new Date();
+          //console.log(startOfMonth(today));
+          return (
+            event.date >= startOfMonth(today) && event.date <= endOfMonth(today)
+          );
+        });
+      }
+    }
+
+    res.status(200).json(filteredEvents);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateEvent = async (req, res, next) => {
+  const { id, eventId } = req.params;
+  const userId = req.user.id;
+  const { event, dateOfEvent, category } = req.body;
+  let date = new Date();
+  if (dateOfEvent) {
+    date = new Date(dateOfEvent);
+  }
+
+  try {
+    //console.log(startOfMonth(date));
+    const relationship = await Relationship.findById(id);
+    if (!relationship) {
+      return res.status(404).json({ message: "Relationship not found" });
+    }
+
+    const savedEvent = relationship.importantEvents.id(eventId);
+    if (!savedEvent) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    if (savedEvent.createdBy.toString() !== userId) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized: You can only edit your events" });
+    }
+
+    // const entryCreationDate = parseISO(journalEntry.dateOfCreation);
+    // console.log(entryCreationDate);
+    if (new Date() > savedEvent.date) {
+      return res.status(400).json({
+        message: "Unauthorized: You cannot edit after the event has passed",
+      });
+    }
+    if (event) {
+      savedEvent.event = event;
+    }
+    if (dateOfEvent) {
+      savedEvent.date = date;
+    }
+    if (category) {
+      savedEvent.category = category;
+    }
+    await relationship.save();
+
+    res.status(200).json({ message: "Event updated", savedEvent });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteEvent = async (req, res, next) => {
+  const { id, eventId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const relationship = await Relationship.findById(id);
+    if (!relationship) {
+      return res.status(404).json({ message: "Relationship not found" });
+    }
+
+    const event = relationship.importantEvents.id(eventId);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    if (event.createdBy.toString() !== userId) {
+      return res.status(403).json({
+        message: "Unauthorized: You can only delete your events",
+      });
+    }
+    relationship.importantEvents = relationship.importantEvents.filter(
+      (event) => event.id !== eventId
+    );
+    await relationship.save();
+
+    res.status(200).json({ message: "Event deleted", event });
+  } catch (error) {
+    next(error);
   }
 };
