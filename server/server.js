@@ -8,6 +8,7 @@ import path from "path";
 //import connectDB from "./config/db.js";
 import userRoutes from "./routes/auth.js";
 import relationshipRoutes from "./routes/relationships.js";
+import notificationRoutes from "./routes/notifications.js";
 
 import fs from "fs";
 
@@ -45,6 +46,7 @@ app.get("/public/avatars", (req, res) => {
 // Routes
 app.use("/auth", userRoutes);
 app.use("/relationships", relationshipRoutes);
+app.use("/notifications", notificationRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

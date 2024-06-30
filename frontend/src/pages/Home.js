@@ -14,6 +14,7 @@ import {
   faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
@@ -31,6 +32,7 @@ const Home = () => {
   const [error, setError] = useState(null); // State for error messages
 
   const tags = ["friend", "lover", "family", "colleague", "others", "all"];
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch relationships from the backend
@@ -210,20 +212,20 @@ const Home = () => {
             className="info-icon"
             title="Daily Question"
           />
-          <Link to={`/importantEvents/${relationship._id}`}>
-            <FontAwesomeIcon
-              icon={faCalendarAlt}
-              className="info-icon"
-              title="Important Events"
-            />
-          </Link>
-          <Link to={`/journal/${relationship._id}`}>
-            <FontAwesomeIcon
-              icon={faBook}
-              className="info-icon"
-              title="Journal"
-            />
-          </Link>
+
+          <FontAwesomeIcon
+            icon={faCalendarAlt}
+            className="info-icon"
+            title="Important Events"
+            onClick={() => navigate(`/importantEvents/${relationship._id}`)}
+          />
+
+          <FontAwesomeIcon
+            icon={faBook}
+            className="info-icon"
+            title="Journal"
+            onClick={() => navigate(`/journal/${relationship._id}`)}
+          />
         </div>
       </div>
     );

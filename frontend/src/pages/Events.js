@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../services/api.js";
 import moment from "moment";
-import PastEvents from "../components/PastEvents";
 import UpcomingEvents from "../components/UpcomingEvents";
 import Header from "./Header.js";
 import "../css/Events.css";

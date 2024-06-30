@@ -5,16 +5,20 @@ import {
   createRelationship,
   UpdateRelationship,
   DeleteRelationship,
+} from "../controllers/Relationships.js";
+import {
   createJournalEntry,
   getJournalEntriesDay,
   getJournalEntriesMonth,
   updateJournalEntry,
   deleteJournalEntry,
+} from "../controllers/Journal.js";
+import {
   createImportantEvent,
   getAllEvents,
   updateEvent,
   deleteEvent,
-} from "../controllers/Relationships.js";
+} from "../controllers/Events.js";
 import { verifyJwtToken } from "../middleware/Verify.js";
 const router = express.Router();
 
