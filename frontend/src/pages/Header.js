@@ -9,6 +9,7 @@ import {
   faBell,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
+import UserDisplay from "../services/UserDisplay";
 import axios from "../services/api";
 import "../css/Home.css";
 
@@ -26,6 +27,7 @@ const Header = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [notifications2, setNotifications2] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUnread, setShowUnread] = useState(true);
 
@@ -45,13 +47,15 @@ const Header = () => {
         const response = await axios.get(`/notifications`, {
           params: { userId: user._id },
         });
+        const response2 = await axios.get(`/notifications/requests`);
         setNotifications(response.data);
+        setNotifications2(response2.data);
       } catch (error) {
         console.error("Error fetching notifications:", error);
       }
     };
     fetchNotifications();
-  }, [user._id, notifications]);
+  }, [user._id, notifications, notifications2]);
 
   const handleLogout = () => {
     dispatch(setLogout());
@@ -72,13 +76,12 @@ const Header = () => {
 
   const markAsRead = async (notificationId) => {
     try {
-      console.log("xyz");
       await axios.put(`/notifications/${notificationId}`, { read: true });
-      // setNotifications((prev) =>
-      //   prev.map((notif) =>
-      //     notif._id === notificationId ? { ...notif, read: true } : notif
-      //   )
-      // );
+      setNotifications((prev) =>
+        prev.map((notif) =>
+          notif._id === notificationId ? { ...notif, read: true } : notif
+        )
+      );
     } catch (error) {
       console.error("Error marking notification as read:", error);
     }
@@ -87,13 +90,19 @@ const Header = () => {
   const deleteNotification = async (notificationId) => {
     try {
       await axios.delete(`/notifications/${notificationId}`);
+      setNotifications((prev) =>
+        prev.filter((notif) => notif._id !== notificationId)
+      );
     } catch (error) {
       console.error("Error deleting notification:", error);
     }
   };
+
   const clearAllNotifs = async () => {
     try {
       await axios.delete(`/notifications`);
+      setNotifications([]);
+      setNotifications2([]);
     } catch (error) {
       console.error("Error deleting notifications", error);
     }
@@ -116,7 +125,8 @@ const Header = () => {
   const unreadCount = notifications.filter(
     (notification) => !notification.read
   ).length;
-  const redirect = ({ notification }) => {
+
+  const redirect = (notification) => {
     if (notification.type === 2) {
       navigate(`/importantEvents/${notification.relId}`);
     }
@@ -124,6 +134,11 @@ const Header = () => {
       navigate(`/journal/${notification.relId}`);
     }
   };
+
+  const handleResponse = async (notificationId, response) => {
+    await axios.post(`/notifications/respond`, { notificationId, response });
+  };
+
   return (
     <div className="header-container">
       <div className="logo-container">
@@ -143,8 +158,12 @@ const Header = () => {
         </button>
         <div className="notification-icon" onClick={toggleNotifications}>
           <FontAwesomeIcon icon={faBell} />
-          {unreadCount > 0 && <span className="notification-dot"></span>}
         </div>
+        {(unreadCount > 0 || notifications2.length > 0) && (
+          <span className="notification-dot">
+            {unreadCount + notifications2.length}
+          </span>
+        )}
         <div className="header-avatar" onClick={toggleDropdown}>
           <img
             src={`http://localhost:5000/public/avatars/${user.avatar}`}
@@ -172,34 +191,106 @@ const Header = () => {
             <button onClick={() => setShowUnread(true)}>Unread</button>
             <button onClick={() => setShowUnread(false)}>Read</button>
             <button onClick={() => clearAllNotifs()}>Clear All</button>
-            {notifications
-              .filter((notification) => notification.read !== showUnread)
-              .map((notification) => (
-                <div key={notification._id} className="notification-card">
-                  <button
-                    className="delete-button"
-                    onClick={() => deleteNotification(notification._id)}
-                  >
-                    <FontAwesomeIcon icon={faTimes} />
-                  </button>
-                  <div
-                    className="notification-content"
-                    onClick={() => redirect({ notification })}
-                  >
-                    <span>{notification.message}</span>
-                    <div className="notification-date">
-                      {new Date(notification.timeStamp).toLocaleString()}
-                    </div>
-                  </div>
-                  <div className="notification-footer">
-                    {!notification.read && (
-                      <button onClick={() => markAsRead(notification._id)}>
-                        Mark as Read
-                      </button>
-                    )}
-                  </div>
+            {notifications2.map((notification) => (
+              <div key={notification._id} className="notification-card">
+                <div className="notification-content">
+                  <UserDisplay userId={notification.userId} />
+                  <span>{` wants to add you as ${notification.tag}.`}</span>
                 </div>
-              ))}
+                <button
+                  className="accept-button"
+                  onClick={() => handleResponse(notification._id, "accept")}
+                >
+                  Accept
+                </button>
+                <button
+                  className="decline-button"
+                  onClick={() => handleResponse(notification._id, "decline")}
+                >
+                  Decline
+                </button>
+              </div>
+            ))}
+            {showUnread && (
+              <>
+                {unreadCount === 0 && (
+                  <div className="notification-card">
+                    No unread notifications.
+                  </div>
+                )}
+                {unreadCount > 0 &&
+                  notifications
+                    .filter((notification) => notification.read !== showUnread)
+                    .map((notification) => (
+                      <div key={notification._id} className="notification-card">
+                        <button
+                          className="delete-button"
+                          onClick={() => deleteNotification(notification._id)}
+                        >
+                          <FontAwesomeIcon icon={faTimes} />
+                        </button>
+                        <div
+                          className="notification-content"
+                          onClick={() => redirect(notification)}
+                        >
+                          <span>{notification.message}</span>
+                          <div className="notification-date">
+                            {new Date(notification.timeStamp).toLocaleString()}
+                          </div>
+                        </div>
+                        <div className="notification-footer">
+                          {!notification.read && (
+                            <button
+                              onClick={() => markAsRead(notification._id)}
+                            >
+                              Mark as Read
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+              </>
+            )}
+            {!showUnread && (
+              <>
+                {notifications.length - unreadCount === 0 && (
+                  <div className="notification-card">
+                    No read notifications.
+                  </div>
+                )}
+                {notifications.length - unreadCount > 0 &&
+                  notifications
+                    .filter((notification) => notification.read !== showUnread)
+                    .map((notification) => (
+                      <div key={notification._id} className="notification-card">
+                        <button
+                          className="delete-button"
+                          onClick={() => deleteNotification(notification._id)}
+                        >
+                          <FontAwesomeIcon icon={faTimes} />
+                        </button>
+                        <div
+                          className="notification-content"
+                          onClick={() => redirect(notification)}
+                        >
+                          <span>{notification.message}</span>
+                          <div className="notification-date">
+                            {new Date(notification.timeStamp).toLocaleString()}
+                          </div>
+                        </div>
+                        <div className="notification-footer">
+                          {!notification.read && (
+                            <button
+                              onClick={() => markAsRead(notification._id)}
+                            >
+                              Mark as Read
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+              </>
+            )}
           </div>
         )}
       </div>

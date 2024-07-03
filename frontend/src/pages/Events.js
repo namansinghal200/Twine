@@ -99,14 +99,20 @@ const Events = () => {
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
           placeholder="Start Date"
+          title="Start Date"
         />
         <input
           type="date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
           placeholder="End Date"
+          title="End Date"
         />
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          title="Select Category"
+        >
           <option value="">All Categories</option>
           <option value="sports">Sports</option>
           <option value="work">Work</option>
@@ -118,6 +124,7 @@ const Events = () => {
         <select
           value={selectedUser}
           onChange={(e) => setSelectedUser(e.target.value)}
+          title="Select User"
         >
           <option value="">All Users</option>
           {relationshipUsers.map((userId) => (
@@ -126,7 +133,11 @@ const Events = () => {
             </option>
           ))}
         </select>
-        <button className="clear-filters-button" onClick={handleClearFilters}>
+        <button
+          className="clear-filters-button"
+          onClick={handleClearFilters}
+          title="Clear Filters"
+        >
           Clear Filters
         </button>
       </div>
@@ -136,6 +147,7 @@ const Events = () => {
           placeholder="Event Name"
           value={newEvent.event}
           onChange={(e) => setNewEvent({ ...newEvent, event: e.target.value })}
+          title="Type Event Name"
         />
         <input
           type="date"
@@ -143,12 +155,14 @@ const Events = () => {
           onChange={(e) =>
             setNewEvent({ ...newEvent, dateOfEvent: e.target.value })
           }
+          title="Select Date"
         />
         <select
           value={newEvent.category}
           onChange={(e) =>
             setNewEvent({ ...newEvent, category: e.target.value })
           }
+          title="Select Category"
         >
           <option value="">Select Category</option>
           <option value="sports">Sports</option>

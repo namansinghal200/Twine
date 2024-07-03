@@ -9,9 +9,9 @@ import {
   faTrash,
   faCaretDown,
   faPlus,
-  faQuestionCircle,
   faCalendarAlt,
   faBook,
+  faHandshake,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -136,10 +136,11 @@ const Home = () => {
         user2Username: newRelationship.name,
         tag: newRelationship.tag,
       });
-      setRelationships([...relationships, res.data]);
+      // setRelationships([...relationships, res.data]);
       setIsCreating(false);
       setNewRelationship({ name: "", tag: "friend" });
       setError(null); // Clear any existing errors
+      alert("notification sent");
     } catch (error) {
       console.error("Error creating new relationship:", error);
       if (error.response) {
@@ -208,9 +209,17 @@ const Home = () => {
         </button>
         <div className="icon-container">
           <FontAwesomeIcon
-            icon={faQuestionCircle}
+            icon={faHandshake}
             className="info-icon"
-            title="Daily Question"
+            title="Say Hi"
+            // onClick={()=>{
+            //   try {
+
+            //     axios.post(`/notifications/hi`, {message:})
+            //   } catch (error) {
+            //     console.error(error);
+            //   }
+            // }}
           />
 
           <FontAwesomeIcon

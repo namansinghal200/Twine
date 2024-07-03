@@ -34,7 +34,7 @@ const Entry = ({
       setIsEditing(false);
       onUpdate(updatedEntry);
     } catch (err) {
-      console.log(err.response.status);
+      console.log(err);
       //   if (err.reponse.status === 400) {
       //     setError("Can't edit after 24 hours.");
       //   } else if (err.response.status === 403) {
@@ -78,17 +78,21 @@ const Entry = ({
             rows="4"
             cols="50"
           />
-        ) : (
+        ) : entry.entry.length > 100 ? (
           <>
             {showMore[entry._id]
               ? entry.entry
-              : `${entry.entry.substring(0, 50)}...`}
+              : `${entry.entry.substring(0, 100)}...`}
             <span
               className="show-more"
               onClick={() => toggleShowMore(entry._id)}
             >
               {showMore[entry._id] ? "Show less" : "Show more"}
             </span>
+          </>
+        ) : (
+          <>
+            <span>{entry.entry}</span>
           </>
         )}
       </p>

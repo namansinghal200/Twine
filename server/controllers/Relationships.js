@@ -12,6 +12,7 @@ import {
   startOfWeek,
   endOfWeek,
 } from "date-fns";
+import Notification2 from "../models/Notifications2.js";
 
 export const createRelationship = async (req, res, next) => {
   const { user2Username, tag } = req.body;
@@ -32,30 +33,15 @@ export const createRelationship = async (req, res, next) => {
     if (existingRelationship) {
       return res.status(400).json({ message: "Relationship already exists" });
     }
-    const newRelationship = new Relationship({ user1, user2: user2._id, tag });
 
-    const user = await User.findById(req.user.id);
-    const notifDate = new Date();
-    const newNotification1 = new Notification({
-      user: user1,
-      message: `You added ${user2Username} as ${tag}. Tap to see!`,
-      timeStamp: notifDate,
-      read: false,
-      type: 1,
-      relId: newRelationship._id,
+    const newNotification = new Notification2({
+      userId: user1,
+      recipentId: user2.id,
+      tag: tag,
+      status: "pending",
     });
-    const newNotification2 = new Notification({
-      user: user2._id,
-      message: `${user.name} added you as ${tag}. Tap  to see!`,
-      timeStamp: notifDate,
-      read: false,
-      type: 1,
-      relId: newRelationship._id,
-    });
-    await newNotification1.save();
-    await newNotification2.save();
-    await newRelationship.save();
-    res.status(201).json(newRelationship);
+    newNotification.save();
+    res.status(201).json(newNotification);
   } catch (error) {
     next(error);
   }

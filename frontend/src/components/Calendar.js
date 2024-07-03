@@ -39,13 +39,13 @@ const Calendar = ({ relationshipId }) => {
 
   const selectDate = async (date) => {
     setSelectedDate(date);
-    console.log(date.format("YYYY-MM-DD"));
+    // console.log(date.format("YYYY-MM-DD"));
 
     try {
       const response = await axios.get(
         `/relationships/${relationshipId}/journalOnDate`,
         {
-          params: { date: date.format("YYYY-MM-DD") },
+          params: { date: date },
         }
       );
       setSelectedDateEntries(response.data);
@@ -155,9 +155,12 @@ const Calendar = ({ relationshipId }) => {
       // You would send a request to your backend here to create the entry
       // For this example, we're just logging the entry text
       console.log("Creating entry with text:", entryText);
-      axios.post(`/relationships/${relationshipId}/createJournal`, {
+      await axios.post(`/relationships/${relationshipId}/createJournal`, {
         entry: entryText,
       });
+      // Refresh the entries after submission
+      fetchMonthEntries();
+      selectDate(selectedDate);
       // Clear entry text and hide dialog after submission
       setEntryText("");
       setShowCreateDialog(false);
@@ -226,7 +229,7 @@ const Calendar = ({ relationshipId }) => {
               />
             ))
           ) : (
-            <p>No entries on this date.</p>
+            <p className="no-entries">No entries on this date.</p>
           )
         ) : journalEntries.length > 0 ? (
           journalEntries.map((entry) => (
@@ -241,7 +244,9 @@ const Calendar = ({ relationshipId }) => {
             />
           ))
         ) : (
-          <p>No entries to show for {currentDate.format("MMMM YYYY")}</p>
+          <p className="no-entries">
+            No entries to show for {currentDate.format("MMMM YYYY")}
+          </p>
         )}
         {(isCurrentDateSelected || isCurrentMonth) && (
           <button className="create-entry-button" onClick={toggleCreateDialog}>
@@ -249,15 +254,24 @@ const Calendar = ({ relationshipId }) => {
           </button>
         )}
         {showCreateDialog && (
-          <div className="entry-dialog">
-            <textarea
-              value={entryText}
-              onChange={handleEntryChange}
-              placeholder="Enter your journal entry..."
-              rows={5}
-            />
-            <button onClick={handleEntrySubmit}>Submit</button>
-            <button onClick={toggleCreateDialog}>Cancel</button>
+          <div className="create-entry-dialog active">
+            <div className="dialog-body">
+              <textarea
+                value={entryText}
+                onChange={handleEntryChange}
+                placeholder="Enter your journal entry..."
+                rows={5}
+                className="textarea"
+              />
+            </div>
+            <div className="dialog-footer">
+              <button className="save-button" onClick={handleEntrySubmit}>
+                Submit
+              </button>
+              <button className="cancel-button" onClick={toggleCreateDialog}>
+                Cancel
+              </button>
+            </div>
           </div>
         )}
       </div>

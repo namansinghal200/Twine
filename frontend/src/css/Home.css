@@ -27,14 +27,14 @@
 /* Dark Mode Variables */
 body.dark-mode {
     --header-background-color: #2e2e4d;
-    --header-text-color: #fff;
+    --header-text-color: #E6A8D7;
     --dropdown-background-color: #3e3e5d;
     --dropdown-border-color: #4a4a6a;
     --dropdown-item-hover-background-color: #4a4a6a;
     --button-background-color: #9a4dff;
     --button-hover: rgba(154, 77, 255, 0.1);
     --background-color: #1e1e2f;
-    --text-color: #E6E6FA;
+    --text-color: #E6A8D7;
     --card-background-color: #2e2e4d;
     --card-shadow-color: rgba(0, 0, 0, 0.5);
     --card-border-color: #4a4a6a;
@@ -497,13 +497,14 @@ body {
 }
 
 .notification-dot {
-    position: relative;
-    top: -10px;
-    right: 0;
-    width: 8px;
-    height: 8px;
+    margin-bottom: 15px;
+    margin-left: -22px;
     background-color: red;
+    color: white;
     border-radius: 50%;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: bold;
 }
 
 .notification-item {
@@ -526,6 +527,23 @@ body {
 
 .notifications-panel button:hover {
     background-color: var(--button-hover);
+}
+.notifications-panel button.accept-button {
+    background-color: green;
+    color: white;
+}
+
+.notifications-panel button.accept-button:hover {
+    background-color: darkgreen;
+}
+
+.notifications-panel button.decline-button {
+    background-color: rgb(255, 88, 88);
+    color: white;
+}
+
+.notifications-panel button.decline-button:hover {
+    background-color: darkred;
 }
 .notification-card {
     position: relative;
