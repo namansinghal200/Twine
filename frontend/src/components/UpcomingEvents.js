@@ -104,7 +104,7 @@ const UpcomingEvents = ({ events, relationshipId, mode }) => {
                 </div>
               </div>
               <div className="event-actions">
-                {mode == "upcoming" && user._id === event.createdBy ? (
+                {mode === "upcoming" && user._id === event.createdBy ? (
                   <FontAwesomeIcon
                     icon={faPen}
                     className="edit-icon"

@@ -1,47 +1,4 @@
-:root {
-    --header-background-color: #f0e6f6;
-    --header-text-color: #4a235a;
-    --dropdown-background-color: #fff;
-    --dropdown-border-color: #ccc;
-    --dropdown-item-hover-background-color: #f3e5f5;
-    --button-background-color: #d4a5d5;
-    --button-hover: rgba(212, 165, 213, 0.1);
-    --background-color: #fdf6ff;
-    --text-color: #74368d;
-    --card-background-color: #fff;
-    --card-shadow-color: rgba(0, 0, 0, 0.1);
-    --card-border-color: #ccc;
-    --link-color: #af7ac5;
-    --link-hover-color: #9b59b6;
-    --journal-entry-hover: #f0e6f6;
-    --calendar-background-color-light: #fff;
-    --journal-entries-background-light: #f9f9f9;
-    --scrollbar-thumb-color: #f7ebf3;
-    --scrollbar-thumb-hover: #c8a9be;
-}
 
-/* Dark Mode Variables */
-body.dark-mode {
-    --header-background-color: #2e2e4d;
-    --header-text-color: #fff;
-    --dropdown-background-color: #3e3e5d;
-    --dropdown-border-color: #4a4a6a;
-    --dropdown-item-hover-background-color: #4a4a6a;
-    --button-background-color: #9a4dff;
-    --button-hover: rgba(154, 77, 255, 0.1);
-    --background-color: #1e1e2f;
-    --text-color: #E6E6FA;
-    --card-background-color: #2e2e4d;
-    --card-shadow-color: rgba(0, 0, 0, 0.5);
-    --card-border-color: #4a4a6a;
-    --link-color: #a967ff;
-    --link-hover-color: #d5adfd;
-    --journal-entry-hover: #4d4d70;
-    --calendar-background-color-dark: #36364f;
-    --journal-entries-background-dark: #33334d;
-    --scrollbar-thumb-color: #0d081c;
-    --scrollbar-thumb-hover: #423d51;
-}
 
 .profile-page {
     display: flex;

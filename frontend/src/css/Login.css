@@ -48,7 +48,7 @@
 }
 
 .form-input {
-    width: 90%;
+    width: 95%;
     padding: 10px;
     border: 1px solid #444466;
     border-radius: 4px;
@@ -94,13 +94,13 @@
     text-decoration: underline;
 }
 
-.avatar-container {
+.register-avatar-container {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-.avatar-item {
+.register-avatar-item {
     width: 50px;
     height: 50px;
     cursor: pointer;
@@ -108,11 +108,11 @@
     border-radius: 50%;
 }
 
-.avatar-item.selected {
+.register-avatar-item.selected {
     border-color: #667eea;
 }
 
-.avatar-img {
+.resgister-avatar-img {
     width: 100%;
     height: 100%;
     border-radius: 50%;

@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import UserDisplay from "../services/UserDisplay";
 import axios from "../services/api";
-import "../css/Home.css";
+import "../css/Header.css";
 
 import light from "../logos/light.png";
 import lightHover from "../logos/lightHover.png";
@@ -24,7 +24,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [notifications2, setNotifications2] = useState([]);
@@ -55,7 +55,7 @@ const Header = () => {
       }
     };
     fetchNotifications();
-  }, [user._id]);
+  }, [user._id, notifications, notifications2]);
 
   const handleLogout = () => {
     dispatch(setLogout());
@@ -137,6 +137,16 @@ const Header = () => {
     }
     if (notification.type === 3) {
       url = `/journal/${notification.relId}`;
+    }
+    if (notification.type == 4) {
+      url = `/importantEvents/${notification.relId}`;
+    }
+    if (notification.type === 5) {
+      axios.post(`/notifications/hi`, {
+        relId: notification.relId,
+        message: `${user.name} waved you back!`,
+      });
+      alert(`You waved back!`);
     }
 
     if (url) {

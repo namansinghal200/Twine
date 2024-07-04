@@ -7,6 +7,7 @@ import {
   deleteAllNotifications,
   responseToRequest,
   getRequests,
+  sayHi,
 } from "../controllers/Notifications.js";
 const router = express.Router();
 
@@ -16,4 +17,5 @@ router.delete("/:id", verifyJwtToken, deleteNotification);
 router.delete("/", verifyJwtToken, deleteAllNotifications);
 router.post("/respond", verifyJwtToken, responseToRequest);
 router.get("/requests", verifyJwtToken, getRequests);
+router.post("/hi", verifyJwtToken, sayHi);
 export default router;

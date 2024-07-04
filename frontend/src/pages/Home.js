@@ -211,15 +211,19 @@ const Home = () => {
           <FontAwesomeIcon
             icon={faHandshake}
             className="info-icon"
-            title="Say Hi"
-            // onClick={()=>{
-            //   try {
-
-            //     axios.post(`/notifications/hi`, {message:})
-            //   } catch (error) {
-            //     console.error(error);
-            //   }
-            // }}
+            title={`Wave ${otherUser.name}`}
+            onClick={() => {
+              try {
+                axios.post(`/notifications/hi`, {
+                  user: otherUserId,
+                  message: `${user.name} waved you! Wave them back!`,
+                  relId: relationship._id,
+                });
+                alert(`You waved ${otherUser.name}`);
+              } catch (error) {
+                console.error(error);
+              }
+            }}
           />
 
           <FontAwesomeIcon

@@ -110,3 +110,28 @@ export const getRequests = async (req, res, next) => {
     next(error);
   }
 };
+
+export const sayHi = async (req, res, next) => {
+  try {
+    let { user, message, relId } = req.body;
+    if (!user) {
+      const relationship = await Relationship.findById(relId);
+      user =
+        relationship.user1 === req.user.id
+          ? relationship.user2
+          : relationship.user1;
+    }
+    const notification = new Notification({
+      user: user,
+      message: message,
+      read: false,
+      timeStamp: new Date(),
+      type: 5,
+      relId: relId,
+    });
+    await notification.save();
+    res.status(201).send({ message: `Notification created`, notification });
+  } catch (error) {
+    next(error);
+  }
+};

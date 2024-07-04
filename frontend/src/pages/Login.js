@@ -125,11 +125,11 @@ const Login = () => {
                   </div>
                   <div className="form-group">
                     <label className="form-label">Select avatar</label>
-                    <div className="avatar-container">
+                    <div className="register-avatar-container">
                       {avatars.map((avatar) => (
                         <div
                           key={avatar}
-                          className={`avatar-item ${
+                          className={`register-avatar-item ${
                             values.avatar === avatar ? "selected" : ""
                           }`}
                           onClick={() => setFieldValue("avatar", avatar)}

@@ -224,7 +224,7 @@ export const deleteJournalEntry = async (req, res) => {
     //console.log(getDate(journalEntry.dateOfCreation));
     const newNotification1 = new Notification({
       user: relationship.user1,
-      message: `${user.name} created a new entry dated ${journalEntry.dateOfCreation}. Tap  to see!`,
+      message: `${user.name} deleted the entry dated ${journalEntry.dateOfCreation}. Tap  to see!`,
       timeStamp: notifDate,
       read: false,
       type: 3,
@@ -232,7 +232,7 @@ export const deleteJournalEntry = async (req, res) => {
     });
     const newNotification2 = new Notification({
       user: relationship.user2,
-      message: `${user.name} created a new entry dated ${journalEntry.dateOfCreation}. Tap  to see!`,
+      message: `${user.name} deleted the entry dated ${journalEntry.dateOfCreation}. Tap  to see!`,
       timeStamp: notifDate,
       read: false,
       type: 3,
