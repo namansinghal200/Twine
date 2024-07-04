@@ -55,7 +55,7 @@ const Header = () => {
       }
     };
     fetchNotifications();
-  }, [user._id, notifications, notifications2]);
+  }, [user._id]);
 
   const handleLogout = () => {
     dispatch(setLogout());
@@ -127,17 +127,34 @@ const Header = () => {
   ).length;
 
   const redirect = (notification) => {
+    let url = "";
+
+    if (notification.type === 1) {
+      url = `/home`;
+    }
     if (notification.type === 2) {
-      navigate(`/importantEvents/${notification.relId}`);
+      url = `/importantEvents/${notification.relId}`;
     }
     if (notification.type === 3) {
-      navigate(`/journal/${notification.relId}`);
+      url = `/journal/${notification.relId}`;
+    }
+
+    if (url) {
+      window.location.href = url; // This will refresh the page and navigate to the URL
     }
   };
 
   const handleResponse = async (notificationId, response) => {
     await axios.post(`/notifications/respond`, { notificationId, response });
   };
+
+  // Sort notifications by timeStamp in descending order
+  const sortedNotifications = [...notifications].sort(
+    (a, b) => new Date(b.timeStamp) - new Date(a.timeStamp)
+  );
+  const sortedNotifications2 = [...notifications2].sort(
+    (a, b) => new Date(b.timeStamp) - new Date(a.timeStamp)
+  );
 
   return (
     <div className="header-container">
@@ -177,7 +194,10 @@ const Header = () => {
             onMouseLeave={() => setIsOpen(false)}
           >
             <div className="header-dropdown-content">
-              <div className="header-dropdown-item" onClick={handleLogout}>
+              <div
+                className="header-dropdown-item"
+                onClick={() => navigate(`/profile`)}
+              >
                 My Profile
               </div>
               <div className="header-dropdown-item" onClick={handleLogout}>
@@ -191,7 +211,7 @@ const Header = () => {
             <button onClick={() => setShowUnread(true)}>Unread</button>
             <button onClick={() => setShowUnread(false)}>Read</button>
             <button onClick={() => clearAllNotifs()}>Clear All</button>
-            {notifications2.map((notification) => (
+            {sortedNotifications2.map((notification) => (
               <div key={notification._id} className="notification-card">
                 <div className="notification-content">
                   <UserDisplay userId={notification.userId} />
@@ -219,7 +239,7 @@ const Header = () => {
                   </div>
                 )}
                 {unreadCount > 0 &&
-                  notifications
+                  sortedNotifications
                     .filter((notification) => notification.read !== showUnread)
                     .map((notification) => (
                       <div key={notification._id} className="notification-card">
@@ -259,7 +279,7 @@ const Header = () => {
                   </div>
                 )}
                 {notifications.length - unreadCount > 0 &&
-                  notifications
+                  sortedNotifications
                     .filter((notification) => notification.read !== showUnread)
                     .map((notification) => (
                       <div key={notification._id} className="notification-card">

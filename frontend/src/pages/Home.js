@@ -136,7 +136,7 @@ const Home = () => {
         user2Username: newRelationship.name,
         tag: newRelationship.tag,
       });
-      // setRelationships([...relationships, res.data]);
+      setRelationships([...relationships, res.data]);
       setIsCreating(false);
       setNewRelationship({ name: "", tag: "friend" });
       setError(null); // Clear any existing errors

@@ -1,6 +1,12 @@
 import express from "express";
 import { check } from "express-validator";
-import { registerUser, loginUser, getUser } from "../controllers/auth.js";
+import {
+  registerUser,
+  loginUser,
+  getUser,
+  updateUser,
+} from "../controllers/auth.js";
+import { verifyJwtToken } from "../middleware/Verify.js";
 
 const router = express.Router();
 
@@ -28,6 +34,8 @@ router.post(
   ],
   loginUser
 );
+
+router.put("/update", verifyJwtToken, updateUser);
 
 router.get("/users/:id", getUser);
 

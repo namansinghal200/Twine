@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Journal from "./pages/Journal.js";
 import Events from "./pages/Events.js";
 import { useSelector } from "react-redux";
+import ProfilePage from "./pages/profilePage.js";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -27,6 +28,7 @@ function App() {
           path="/importantEvents/:relationshipId"
           element={<Events />}
         ></Route>
+        <Route path="/profile" element={<ProfilePage />}></Route>
       </Routes>
     </Router>
   );

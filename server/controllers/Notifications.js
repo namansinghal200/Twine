@@ -1,6 +1,7 @@
 import Notification from "../models/Notifications.js";
 import Notification2 from "../models/Notifications2.js";
 import Relationship from "../models/Relationship.js";
+import User from "../models/User.js";
 export const getAllNotifications = async (req, res, next) => {
   const userId = req.user.id;
   try {
@@ -63,7 +64,6 @@ export const responseToRequest = async (req, res, next) => {
       });
 
       //   const user = await User.findById(req.user.id);
-      //   const notifDate = new Date();
       //   const newNotification1 = new Notification({
       //     user: user1,
       //     message: `You added ${user2Username} as ${tag}. Tap to see!`,
@@ -72,16 +72,20 @@ export const responseToRequest = async (req, res, next) => {
       //     type: 1,
       //     relId: newRelationship._id,
       //   });
-      //   const newNotification2 = new Notification({
-      //     user: user2._id,
-      //     message: `${user.name} added you as ${tag}. Tap  to see!`,
-      //     timeStamp: notifDate,
-      //     read: false,
-      //     type: 1,
-      //     relId: newRelationship._id,
-      //   });
+      const notifDate = new Date();
+      const recipent = await User.findById(newRelationship.user2);
+      console.log(recipent);
+      const newNotification2 = new Notification({
+        user: newRelationship.user1,
+        message: `${recipent.name} added you as ${newRelationship.tag}. Tap  to see!`,
+        timeStamp: notifDate,
+        read: false,
+        type: 1,
+        relId: newRelationship._id,
+      });
       await newRelationship.save();
       await Notification2.findByIdAndDelete(notificationId);
+      await newNotification2.save();
       res.status(201).send(newRelationship);
     } else if (response === "decline") {
       await Notification2.findByIdAndDelete(notificationId);

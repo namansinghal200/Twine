@@ -77,11 +77,7 @@ const Events = () => {
       console.log(newEvent);
       const response = await axios.post(
         `/relationships/${relationshipId}/newEvent`,
-        {
-          event: newEvent.event,
-          dateOfEvent: newEvent.dateOfEvent,
-          category: newEvent.category,
-        }
+        newEvent
       );
       setEvents((prevEvents) => [...prevEvents, response.data]);
       setNewEvent({ event: "", dateOfEvent: "", category: "" });

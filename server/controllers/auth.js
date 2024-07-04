@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { rmSync } from "fs";
 
 export const registerUser = async (req, res, next) => {
   try {
@@ -15,6 +16,45 @@ export const registerUser = async (req, res, next) => {
     });
     const savedUser = await user.save();
     return res.status(201).json({ user: savedUser });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUser = async (req, res, next) => {
+  try {
+    const { newName, newAvatar, newPassword } = req.body;
+    const id = req.user.id;
+    const updatedUser = await User.findById(id);
+    console.log(updatedUser);
+    if (newName) {
+      if (newName === updatedUser.name) {
+        return res.status(400).send(`Name is unchanged.`);
+      }
+      const repeatedName = await User.findOne({ name: newName });
+      if (repeatedName) {
+        return res
+          .status(400)
+          .send(`Name is already taken. Choose a different name.`);
+      }
+      updatedUser.name = newName;
+    }
+    if (newPassword) {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      if (hashedPassword === updatedUser.password) {
+        return res.status(400).send(`Please change the password`);
+      }
+      updatedUser.password = hashedPassword;
+    }
+    if (newAvatar) {
+      if (newAvatar === updatedUser.avatar) {
+        res.status(400).send(`Please change the avatar.`);
+      }
+      updatedUser.avatar = newAvatar;
+    }
+    updatedUser.save();
+    res.status(201).send({ message: "user updated", updatedUser });
   } catch (error) {
     next(error);
   }
