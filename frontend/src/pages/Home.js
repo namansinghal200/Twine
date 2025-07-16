@@ -12,10 +12,7 @@ import {
   faCalendarAlt,
   faBook,
   faHandshake,
-<<<<<<< HEAD
   faComments,
-=======
->>>>>>> e7ee520b3d333039238755a34727cf44001acbff
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -213,35 +210,10 @@ const Home = () => {
         </button>
         <div className="icon-container">
           <FontAwesomeIcon
-<<<<<<< HEAD
             icon={faComments} // Changed from faHandshake
             className="info-icon"
             title={`Chat with ${otherUser.name}`}
             onClick={() => navigate(`/chat/${relationship._id}`)} // Navigate to chat
-=======
-            icon={faHandshake}
-            className="info-icon"
-            title={`Wave ${otherUser.name}`}
-            onClick={() => {
-              try {
-                axios.post(`/notifications/hi`, {
-                  user: otherUserId,
-                  message: `${user.name} waved you! Wave them back!`,
-                  relId: relationship._id,
-                });
-                alert(`You waved ${otherUser.name}`);
-              } catch (error) {
-                console.error(error);
-              }
-            }}
->>>>>>> e7ee520b3d333039238755a34727cf44001acbff
-          />
-
-          <FontAwesomeIcon
-            icon={faCalendarAlt}
-            className="info-icon"
-            title="Important Events"
-            onClick={() => navigate(`/importantEvents/${relationship._id}`)}
           />
 
           <FontAwesomeIcon
