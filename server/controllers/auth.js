@@ -6,6 +6,7 @@ import { rmSync } from "fs";
 export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password, avatar } = req.body;
+<<<<<<< HEAD
 
     // Check for required fields manually (optional, defensive)
     if (!name || !email || !password || !avatar) {
@@ -27,13 +28,20 @@ export const registerUser = async (req, res, next) => {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
+=======
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+>>>>>>> e7ee520b3d333039238755a34727cf44001acbff
     const user = new User({
       name,
       email,
       password: hashedPassword,
       avatar,
     });
+<<<<<<< HEAD
 
+=======
+>>>>>>> e7ee520b3d333039238755a34727cf44001acbff
     const savedUser = await user.save();
     return res.status(201).json({ user: savedUser });
   } catch (error) {

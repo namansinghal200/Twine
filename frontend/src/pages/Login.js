@@ -36,7 +36,10 @@ const loginSchema = Yup.object().shape({
 });
 
 const Login = () => {
+<<<<<<< HEAD
   const [apiError, setApiError] = useState("");
+=======
+>>>>>>> e7ee520b3d333039238755a34727cf44001acbff
   const [page, setPage] = useState("login");
   const [avatars, setAvatars] = useState([]);
   const isLogin = page === "login";
@@ -65,8 +68,12 @@ const Login = () => {
         navigate("/home");
       })
       .catch((error) => {
+<<<<<<< HEAD
         setApiError(error.response?.data || "An unexpected error occurred");
         console.error(error);
+=======
+        console.error("Error during login:", error);
+>>>>>>> e7ee520b3d333039238755a34727cf44001acbff
       });
   };
 
@@ -78,9 +85,13 @@ const Login = () => {
         setPage("login");
       })
       .catch((error) => {
+<<<<<<< HEAD
         setApiError(
           error.response?.data?.message || "An unexpected error occurred"
         );
+=======
+        console.error("Error during registration:", error);
+>>>>>>> e7ee520b3d333039238755a34727cf44001acbff
       });
   };
 
@@ -191,7 +202,10 @@ const Login = () => {
               <div
                 onClick={() => {
                   setPage(isLogin ? "register" : "login");
+<<<<<<< HEAD
                   setApiError("");
+=======
+>>>>>>> e7ee520b3d333039238755a34727cf44001acbff
                   resetForm();
                 }}
                 className="switch-page"
@@ -200,6 +214,7 @@ const Login = () => {
                   ? "Not a user? Register here"
                   : "Already a user? Login here"}
               </div>
+<<<<<<< HEAD
               {apiError && (
                 <div
                   className="form-error api-error"
@@ -211,6 +226,8 @@ const Login = () => {
                   {apiError}
                 </div>
               )}
+=======
+>>>>>>> e7ee520b3d333039238755a34727cf44001acbff
             </form>
           </div>
         </div>

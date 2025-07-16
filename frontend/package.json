@@ -11,7 +11,10 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
+<<<<<<< HEAD
     "date-fns": "^4.1.0",
+=======
+>>>>>>> e7ee520b3d333039238755a34727cf44001acbff
     "dayjs": "^1.11.11",
     "formik": "^2.4.6",
     "moment": "^2.30.1",
@@ -23,7 +26,10 @@
     "react-router-dom": "^6.23.1",
     "react-scripts": "^5.0.1",
     "redux-persist": "^6.0.0",
+<<<<<<< HEAD
     "socket.io-client": "^4.8.1",
+=======
+>>>>>>> e7ee520b3d333039238755a34727cf44001acbff
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
   },

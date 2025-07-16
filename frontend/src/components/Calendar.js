@@ -4,7 +4,7 @@ import moment from "moment";
 import Entry from "./Entry.js";
 import "../css/Calendar.css"; // Import the CSS file
 import UserDisplay from "../services/UserDisplay.js";
-//xtz
+
 const Calendar = ({ relationshipId }) => {
   const [currentDate, setCurrentDate] = useState(moment());
   const [journalEntries, setJournalEntries] = useState([]);

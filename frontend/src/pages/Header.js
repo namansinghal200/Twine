@@ -142,7 +142,15 @@ const Header = () => {
       url = `/importantEvents/${notification.relId}`;
     }
     if (notification.type === 5) {
+<<<<<<< HEAD
       url = `/chat/${notification.relId}`;
+=======
+      axios.post(`/notifications/hi`, {
+        relId: notification.relId,
+        message: `${user.name} waved you back!`,
+      });
+      alert(`You waved back!`);
+>>>>>>> e7ee520b3d333039238755a34727cf44001acbff
     }
 
     if (url) {
